@@ -10,7 +10,7 @@ Recreate the homepage mockup exactly, then extend to a full multi-page site with
 forms, an admin dashboard, and Givebutter donations.
 
 ## Stack (LOCKED — do not change without asking Shayne)
-- Next.js 14 (App Router) + TypeScript + Tailwind CSS
+- Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS
 - Postgres via `pg` — connection helper in `lib/db.ts`, use the `query()` helper
 - Redis via `ioredis` — helper in `lib/redis.ts` (form rate-limiting, caching)
 - File storage: Railway bucket (Tigris, S3-compatible) via the AWS S3 SDK
@@ -18,7 +18,15 @@ forms, an admin dashboard, and Givebutter donations.
 - Email: Brevo (form notifications + newsletter)
 - Admin auth: bcryptjs + jose + zod (Shayne's reusable module)
 
-Do NOT upgrade Next.js to v16 (breaking). We're pinned to the latest 14.2.x.
+Upgraded from Next 14.2.35 → 16.2.10 (+ React 18 → 19) before M4 to close out
+two unpatched security advisories (1 high DoS, 1 moderate XSS via postcss)
+that had no 14.x fix available. Used the official `@next/codemod` upgrade
+tool; `npm audit` is clean (0 vulnerabilities). Don't downgrade without
+checking whether the 14.x line has since been patched.
+
+Next 16 route handlers, `cookies()`, `headers()`, and dynamic route `params`
+are async now (return Promises) — matters starting M4 (API routes) and M5
+(admin auth). Build new code against that from the start.
 
 ## Brand
 Tailwind tokens are already defined: `brand-purple` (#4B1E71), `brand-gold`

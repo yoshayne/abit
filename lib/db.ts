@@ -6,7 +6,6 @@ import { Pool } from "pg";
 // url, set DATABASE_SSL=true in your env vars.
 
 declare global {
-  // eslint-disable-next-line no-var
   var _abitPool: Pool | undefined;
 }
 

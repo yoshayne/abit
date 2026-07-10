@@ -80,5 +80,30 @@ minor data around). Reflect this in the Privacy Policy.
   it says "coming soon" rather than inventing people). Programs: the
   four pillars in detail plus a dedicated Girlfriends Leadership
   Academy section. New `PageHero` component for interior-page banners.
-- NEXT: M4 — Public forms + Postgres (mentor, enrollment, volunteer,
-  partner, contact, newsletter + thank-you pages + Brevo notifications).
+- M4 (public forms + Postgres) — DONE. All 6 forms live: mentor
+  (`/get-involved#mentor`), enrollment (`/enroll`), volunteer
+  (`/get-involved#volunteer`), partner (`/get-involved#partner`),
+  contact (`/contact`), newsletter (footer, inline success state).
+  Each POSTs to an `/api/*` route: zod validation, Redis-backed rate
+  limiting (5/hour/IP, fails open if Redis is down), Postgres insert,
+  best-effort Brevo notification email to `ABIT_NOTIFY_EMAIL` (needs
+  `BREVO_API_KEY` + `ABIT_NOTIFY_EMAIL` set on Railway — not set yet,
+  so notifications currently no-op; forms still save fine without
+  them). Shared `/thank-you?type=` page. Added `/privacy` — required
+  before the enrollment form could go live per the safeguarding rule
+  below; draft copy, not lawyer-reviewed. Enrollment notification
+  emails deliberately omit the student's name/age/school/notes — only
+  guardian name + email, per the safeguarding rule. "Host an event"
+  (linked from the footer) temporarily reuses the contact form until
+  Events ships at M5. Mentor resume upload is NOT wired yet — needs
+  the Railway storage bucket (`lib/storage.ts`), planned for M5
+  alongside the other bucket work; the field was left out of the form
+  rather than faking it.
+  Verified for real: stood up local Postgres 16 + Redis, ran the
+  schema, and exercised every endpoint end-to-end (curl + a real
+  headless-browser submission) — validation errors, successful
+  inserts, rate-limit 429s, and the thank-you redirect all confirmed
+  against live services, not just typecheck/build.
+- NEXT: M5 — Events + News + Admin CMS (admin login, submission views,
+  create/edit events & news, image uploads via the storage bucket,
+  CSV export).

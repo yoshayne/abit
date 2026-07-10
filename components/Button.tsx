@@ -34,12 +34,13 @@ type ButtonAsButton = CommonProps & {
   href?: undefined;
   type?: "button" | "submit";
   onClick?: () => void;
+  disabled?: boolean;
 };
 
 type ButtonProps = ButtonAsLink | ButtonAsButton;
 
 const baseClasses =
-  "inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold tracking-wide transition-colors";
+  "inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-60";
 
 export function Button({
   children,
@@ -60,9 +61,9 @@ export function Button({
     );
   }
 
-  const { type = "button", onClick } = rest as ButtonAsButton;
+  const { type = "button", onClick, disabled } = rest as ButtonAsButton;
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
       {icon}
       {children}
     </button>

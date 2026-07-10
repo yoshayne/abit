@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { Container } from "./Container";
 import {
   IconFacebook,
@@ -152,29 +153,19 @@ export function Footer() {
           <p className="mt-5 text-xs font-bold tracking-wide text-white/70">
             Subscribe to our newsletter
           </p>
-          <div className="mt-2 flex max-w-xs overflow-hidden rounded-lg">
-            <input
-              type="email"
-              placeholder="Your email"
-              aria-label="Email address"
-              className="w-0 min-w-0 flex-1 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none"
-            />
-            <button
-              type="button"
-              className="shrink-0 bg-brand-teal px-4 text-xs font-bold tracking-wide text-white hover:bg-brand-teal/90"
-            >
-              SUBSCRIBE
-            </button>
-          </div>
+          <NewsletterForm className="mt-2 max-w-xs" />
         </div>
       </Container>
 
       <div className="border-t border-white/10 py-6">
-        <Container>
+        <Container className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
           <p className="text-center text-xs text-white/60">
             © {new Date().getFullYear()} ABIT Community Development Group. All Rights
             Reserved.
           </p>
+          <Link href="/privacy" className="text-xs text-white/60 hover:text-white">
+            Privacy Policy
+          </Link>
         </Container>
       </div>
     </footer>

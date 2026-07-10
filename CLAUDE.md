@@ -56,4 +56,8 @@ minor data around). Reflect this in the Privacy Policy.
 
 ## Status
 - M0 (foundation) — DONE. Scaffolding builds and deploys.
-- NEXT: M1 — header nav, footer, and design system matched to the mockup.
+- M1 (design system) — DONE. Fonts (Playfair Display / Dancing Script / Inter),
+  header nav (sticky, mobile menu), footer (link columns, contact, newsletter
+  signup UI), and reusable Button/TextLink/Card/IconBadge/Container components.
+  Logo asset in `public/logo.png`.
+- NEXT: M2 — Home page (all mockup sections, fully responsive).

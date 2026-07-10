@@ -152,19 +152,31 @@ minor data around). Reflect this in the Privacy Policy.
     public site → RSVP/detail page works → delete cascades correctly),
     auth boundary tested on every protected route (`/admin/*` and
     `/api/admin/*` both reject unauthenticated requests).
-- M6 (Donations) — PARTIAL. Switched from Givebutter to Zeffy per
+- M6 (Donations) — DONE. Switched from Givebutter to Zeffy per
   Shayne's instruction (2026-07-10) — both are hosted/embedded widgets
   with no payment code on our side, so this doesn't change the
   architecture, just which platform's embed goes on the Donate page.
-  Built `/donate` (PageHero + copy + a clearly-marked placeholder
-  where the embed goes — see `components/DonateEmbed.tsx`) so the
-  header "Donate" button and every other Donate link across the site
-  (hero, Get Involved section, founder story CTA, footer) now resolve
-  to a real page instead of 404ing. NOT done: the actual Zeffy embed —
-  blocked on Shayne creating a Zeffy account + donation form to get
-  the embed snippet. Swap it into `DonateEmbed.tsx` when he has it;
-  if Zeffy's snippet includes a `<script>` tag it'll need `next/script`
-  rather than dropping straight into the Server Component.
-- NEXT: finish M6 once the Zeffy embed code is available, then M7 —
-  Email + confirmations polish (submitter confirmations, ABIT
-  notifications, newsletter sync).
+  `/donate` (`components/DonateEmbed.tsx`) uses Zeffy's official v2
+  inline-embed snippet: a `[data-zeffy-embed]` container their script
+  (loaded via `next/script`) hydrates into the live donation form,
+  with a fallback `<iframe>` that only activates if the script fails
+  to load. Attribute names (`data-zeffy-embed`, `data-form-url`,
+  `data-zeffy-embed-fallback`, `data-zeffy-embed-src`) must match
+  Zeffy's script exactly — verified by fetching the live
+  `zeffy-embed.js` from Zeffy and confirming those are the exact
+  strings it queries for, not just trusting the pasted snippet.
+  Non-standard iframe attrs (`allowpaymentrequest`, `allowtransparency`)
+  and the bare `data-zeffy-embed` attribute needed a small
+  `{...{ "attr-name": value }}` spread workaround since TypeScript's
+  JSX types don't know about them. The header "Donate" button and
+  every other Donate link across the site now lead to a working,
+  live donation form instead of 404ing or a placeholder.
+  Verified: tsc/eslint/build clean, rendered HTML byte-diffed against
+  Zeffy's exact snippet, both Zeffy URLs (script + form) confirmed
+  reachable (200). Could NOT get a live visual screenshot of the
+  hydrated form in this sandbox — the headless browser can't be routed
+  through the outbound proxy for external HTTPS the way curl can, a
+  sandbox-only limitation. Worth a real click-through once deployed to
+  confirm the checkout flow itself works end to end.
+- NEXT: M7 — Email + confirmations polish (submitter confirmations,
+  ABIT notifications, newsletter sync).

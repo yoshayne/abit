@@ -35,7 +35,7 @@ These change the code, so let's lock them first:
 | Database | Railway Postgres | All form submissions + content |
 | Cache/queue | Railway Redis | Form rate-limiting (spam), caching published content |
 | File storage | Railway storage bucket | News/event images, mentor resume uploads |
-| Payments | Givebutter (hosted) | Recurring giving + tax receipts handled by Givebutter; embedded on Donate page |
+| Payments | Zeffy (hosted) | Recurring giving + tax receipts handled by Zeffy; embedded on Donate page (switched from Givebutter — see CLAUDE.md Status) |
 | Email | Brevo (you already have it) | Form notifications, confirmations, newsletter |
 | Auth (admin) | Your reusable module (bcryptjs + jose + zod) | Protects the admin dashboard |
 
@@ -112,7 +112,7 @@ Preset amounts + custom, one-time vs. monthly, donor name, email, optional dedic
 - `event_registrations` — id, event_id, name, email, phone, party_size, created_at
 - `news_posts` — id, title, slug, excerpt, body, cover_image_url, author, published, published_at, created_at
 
-*(No `donations` table — Givebutter tracks donations on their platform.)*
+*(No `donations` table — Zeffy tracks donations on their platform.)*
 
 ---
 
@@ -128,7 +128,7 @@ Preset amounts + custom, one-time vs. monthly, donor name, email, optional dedic
 
 ## 7. Integrations
 
-- **Givebutter:** embedded donation widget on the Donate page (and a "Donate" button in the header). Recurring giving, donor management, and tax receipts handled by Givebutter — no payment code on our side.
+- **Zeffy:** embedded donation widget on the Donate page (and a "Donate" button in the header). Recurring giving, donor management, and tax receipts handled by Zeffy — no payment code on our side. (Switched from Givebutter before M6.)
 - **Brevo:** transactional emails (form confirmations to submitter + notification to ABIT inbox) and newsletter list sync.
 - **Railway storage bucket:** resume uploads, event images, news cover images. S3-compatible (Tigris), accessed via AWS S3 SDK with a custom endpoint. Env vars (set on the ABIT service): `BUCKET_ENDPOINT_URL`, `BUCKET_NAME`, `BUCKET_REGION`, `BUCKET_ACCESS_KEY_ID`, `BUCKET_SECRET_ACCESS_KEY`.
 - **Redis:** rate-limit public form posts (spam protection), cache published events/news.
@@ -143,7 +143,7 @@ Preset amounts + custom, one-time vs. monthly, donor name, email, optional dedic
 - **M3 — About + Programs pages.**
 - **M4 — Public forms + Postgres:** mentor, enrollment, volunteer, partner, contact, newsletter + thank-you pages + Brevo notifications.
 - **M5 — Events + News + Admin CMS:** admin login, submission views, create/edit events & news, image uploads, CSV export.
-- **M6 — Donations:** embed Givebutter campaign on the Donate page + wire the header "Donate" button.
+- **M6 — Donations:** embed Zeffy campaign on the Donate page + wire the header "Donate" button.
 - **M7 — Email + confirmations polish:** submitter confirmations, ABIT notifications, newsletter sync.
 - **M8 — Launch polish:** SEO/meta, real images, privacy/terms, domain, favicon, analytics.
 
@@ -154,6 +154,6 @@ Preset amounts + custom, one-time vs. monthly, donor name, email, optional dedic
 - Real logo file (final version once you two settle it).
 - Final mission statement (you have a good draft ready).
 - Photos + signed releases (esp. for minors).
-- Givebutter account set up + campaign created (gives us the embed code / campaign URL).
+- Zeffy account set up + campaign/form created (gives us the embed code / form URL).
 - Domain name for launch.
 - The email inbox that should receive form notifications.

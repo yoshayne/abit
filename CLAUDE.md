@@ -7,14 +7,15 @@ Full page/form/milestone spec lives in `ABIT_WEBSITE_BUILD_PLAN.md`.
 Marketing + programs website for ABIT Community Development Group, a nonprofit
 empowering girls from underserved communities (Columbia, SC. Founder: Cierra Jenkins).
 Recreate the homepage mockup exactly, then extend to a full multi-page site with
-forms, an admin dashboard, and Givebutter donations.
+forms, an admin dashboard, and Zeffy donations.
 
 ## Stack (LOCKED — do not change without asking Shayne)
 - Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS
 - Postgres via `pg` — connection helper in `lib/db.ts`, use the `query()` helper
 - Redis via `ioredis` — helper in `lib/redis.ts` (form rate-limiting, caching)
 - File storage: Railway bucket (Tigris, S3-compatible) via the AWS S3 SDK
-- Donations: Givebutter (embedded widget — no payment code on our side)
+- Donations: Zeffy (embedded widget — no payment code on our side; switched
+  from Givebutter before M6, see Status)
 - Email: Brevo (form notifications + newsletter)
 - Admin auth: bcryptjs + jose + zod (Shayne's reusable module)
 
@@ -151,5 +152,8 @@ minor data around). Reflect this in the Privacy Policy.
     public site → RSVP/detail page works → delete cascades correctly),
     auth boundary tested on every protected route (`/admin/*` and
     `/api/admin/*` both reject unauthenticated requests).
-- NEXT: M6 — Donations (embed Givebutter campaign on the Donate page,
-  wire the header "Donate" button that currently 404s).
+- NEXT: M6 — Donations. Switched from Givebutter to Zeffy per Shayne's
+  instruction (2026-07-10) — both are hosted/embedded widgets with no
+  payment code on our side, so this doesn't change the architecture,
+  just which platform's embed goes on the Donate page. Needs a Zeffy
+  account + campaign/form created first to get the embed code.

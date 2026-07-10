@@ -66,7 +66,7 @@ export default function PrivacyPage() {
             <p className="mt-3">
               Form submissions are stored in a secured database hosted on
               Railway. We use Brevo to send email notifications and our
-              newsletter. When our online donation platform (Givebutter)
+              newsletter. When our online donation platform (Zeffy)
               launches, donations will be processed entirely on their
               platform — we never handle or store your payment card details
               ourselves.

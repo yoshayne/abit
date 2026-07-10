@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 type Variant = "purple" | "teal" | "white" | "gold";
 type Shape = "pill" | "rounded";
+type Size = "md" | "sm";
 
 const variantClasses: Record<Variant, string> = {
   purple: "bg-brand-purple text-white hover:bg-brand-purple-dark",
@@ -16,10 +17,16 @@ const shapeClasses: Record<Shape, string> = {
   rounded: "rounded-lg",
 };
 
+const sizeClasses: Record<Size, string> = {
+  md: "px-6 py-3 text-sm",
+  sm: "px-4 py-2 text-xs",
+};
+
 type CommonProps = {
   children: ReactNode;
   variant?: Variant;
   shape?: Shape;
+  size?: Size;
   icon?: ReactNode;
   className?: string;
 };
@@ -40,17 +47,18 @@ type ButtonAsButton = CommonProps & {
 type ButtonProps = ButtonAsLink | ButtonAsButton;
 
 const baseClasses =
-  "inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex items-center justify-center gap-2 font-semibold tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-60";
 
 export function Button({
   children,
   variant = "purple",
   shape = "pill",
+  size = "md",
   icon,
   className = "",
   ...rest
 }: ButtonProps) {
-  const classes = `${baseClasses} ${variantClasses[variant]} ${shapeClasses[shape]} ${className}`;
+  const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${shapeClasses[shape]} ${className}`;
 
   if ("href" in rest && rest.href) {
     return (

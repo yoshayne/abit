@@ -3,7 +3,9 @@
 import { type FormEvent, useState } from "react";
 
 export function NewsletterForm({ className = "" }: { className?: string }) {
-  const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error" | "rate-limited">(
+    "idle"
+  );
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -17,7 +19,11 @@ export function NewsletterForm({ className = "" }: { className?: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      if (!res.ok && res.status !== 429) throw new Error("failed");
+      if (res.status === 429) {
+        setStatus("rate-limited");
+        return;
+      }
+      if (!res.ok) throw new Error("failed");
       setStatus("done");
       form.reset();
     } catch {
@@ -55,6 +61,11 @@ export function NewsletterForm({ className = "" }: { className?: string }) {
       {status === "error" && (
         <p className="mt-2 text-xs text-red-300">
           Something went wrong. Please try again.
+        </p>
+      )}
+      {status === "rate-limited" && (
+        <p className="mt-2 text-xs text-red-300">
+          Too many attempts. Please try again later.
         </p>
       )}
     </form>

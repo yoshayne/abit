@@ -23,7 +23,11 @@ export function Field({
         {required && <span className="text-brand-gold"> *</span>}
       </label>
       <div className="mt-1.5">{children}</div>
-      {error && <p className="mt-1 text-xs font-medium text-red-600">{error}</p>}
+      {error && (
+        <p role="alert" className="mt-1 text-xs font-medium text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -73,7 +77,11 @@ export function CheckboxField({
         />
         <span>{children}</span>
       </label>
-      {error && <p className="mt-1 text-xs font-medium text-red-600">{error}</p>}
+      {error && (
+        <p role="alert" className="mt-1 text-xs font-medium text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

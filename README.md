@@ -1,57 +1,49 @@
 # ABIT Community Development Group — Website
 
 Next.js site for ABIT Community Development Group, deployed on Railway.
+Full spec and milestone status live in `ABIT_WEBSITE_BUILD_PLAN.md` and
+`CLAUDE.md`.
 
-## What's in this milestone (M0 — foundation)
+## What's live (through M4)
 
-- Next.js (App Router) + TypeScript + Tailwind
-- Brand colors wired into Tailwind (`brand-purple`, `brand-gold`, `brand-teal`)
-- Postgres connection helper (`lib/db.ts`)
-- Redis connection helper (`lib/redis.ts`)
-- Full database schema (`db/schema.sql`)
-- A placeholder home page so you can confirm the deploy works
+- Full marketing site: Home, About, Programs, Get Involved, Contact
+- Six public forms (mentor, enroll a student, volunteer, partner, contact,
+  newsletter), each saving to Postgres with Redis-backed rate limiting and
+  a best-effort email notification via Brevo
+- Privacy Policy (`/privacy`)
 
-The real pages get built in the next milestones.
-
----
-
-## Step-by-step: get it live on Railway
-
-### 1. Push to GitHub
-- Create a new **empty** repo on GitHub (no README).
-- Put these files in it and push to the `main` branch.
-
-### 2. Create the Railway project
-- Railway → **New Project** → **Deploy from GitHub repo** → pick this repo.
-- Railway auto-detects Next.js and starts building.
-
-### 3. Add the database + cache
-In the same Railway project:
-- Click **+ New** → **Database** → **PostgreSQL**.
-- Click **+ New** → **Database** → **Redis**.
-
-Railway automatically injects `DATABASE_URL` and `REDIS_URL` into your app —
-you do **not** type these in by hand.
-
-### 4. Create the database tables
-- Open the **Postgres** service → **Query** tab.
-- Paste the entire contents of `db/schema.sql` and run it.
-
-### 5. Done
-- Open your app's Railway URL. You should see the purple
-  "Milestone 0 — foundation deployed ✓" screen.
-- Every future push to `main` auto-deploys.
+Not yet built: Events, News, Admin dashboard (M5), Donate/Givebutter (M6).
 
 ---
 
-## Run it locally (optional)
+## Local setup
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open http://localhost:3000
+Then open http://localhost:3000. The site renders fine with no environment
+variables set — you only need them to exercise the parts that talk to
+Postgres, Redis, or Brevo:
 
-Local dev needs a `.env.local` file (copy from `.env.example`) only if you
-want to connect to a database locally. The placeholder home page works without one.
+- Copy `.env.example` to `.env.local` and fill in `DATABASE_URL` /
+  `REDIS_URL` to test forms against a real local database. Run
+  `db/schema.sql` against that database first.
+- Fill in `BREVO_API_KEY` / `ABIT_NOTIFY_EMAIL` to test the notification
+  emails forms send on submit. Without these, forms still save to Postgres
+  fine — they just skip sending the email (logged as a warning).
+
+## Deploying
+
+Push to `main` — Railway auto-deploys. No pull requests.
+
+Railway provides `DATABASE_URL` and `REDIS_URL` automatically once the
+Postgres and Redis plugins are added to the project; you don't set those by
+hand. `BREVO_API_KEY` and `ABIT_NOTIFY_EMAIL` need to be set manually in the
+Railway service's environment variables for form notification emails to go
+out — see `.env.example` for details.
+
+If you haven't already run `db/schema.sql` against the Railway Postgres
+database, open the Postgres service → **Query** tab, paste the whole file,
+and run it. It's all `CREATE TABLE IF NOT EXISTS`, so it's safe to re-run.

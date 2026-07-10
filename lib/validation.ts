@@ -11,7 +11,10 @@ const optionalText = (max = 500) =>
     .optional()
     .transform((v) => (v ? v : undefined));
 const requiredCheckbox = (message: string) =>
-  z.boolean().refine((v) => v === true, { message });
+  z.preprocess(
+    (v) => (v === undefined || v === null ? false : v),
+    z.boolean()
+  ).refine((v) => v === true, { message });
 const optionalNumber = (min: number, max: number) =>
   z.preprocess(
     (v) => (v === "" || v === undefined || v === null ? undefined : v),

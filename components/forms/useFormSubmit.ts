@@ -18,17 +18,20 @@ export function useFormSubmit(endpoint: string, thankYouType: string) {
     setFieldErrors({});
 
     const form = event.currentTarget;
-    const formData = new FormData(form);
     const payload: Record<string, unknown> = {};
-    formData.forEach((value, key) => {
-      if (form.elements.namedItem(key) instanceof HTMLInputElement) {
-        const input = form.elements.namedItem(key) as HTMLInputElement;
-        if (input.type === "checkbox") {
-          payload[key] = input.checked;
-          return;
-        }
+    // Iterate form controls directly rather than FormData — unchecked
+    // checkboxes are omitted from FormData entirely, which would leave
+    // required consent fields missing from the payload instead of `false`.
+    Array.from(form.elements).forEach((el) => {
+      if (!(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement)) {
+        return;
       }
-      payload[key] = value;
+      if (!el.name) return;
+      if (el instanceof HTMLInputElement && el.type === "checkbox") {
+        payload[el.name] = el.checked;
+        return;
+      }
+      payload[el.name] = el.value;
     });
 
     try {

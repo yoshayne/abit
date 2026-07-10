@@ -65,4 +65,12 @@ minor data around). Reflect this in the Privacy Policy.
   Founder, Get Involved. Image slots use licensed Pexels stock (manually
   vetted for appropriateness — this is a minors-serving nonprofit) as
   placeholders; swap for real ABIT photos at M8 (launch polish).
-- NEXT: M3 — About + Programs pages.
+- M3 (About + Programs pages) — DONE. About: mission statement (draft
+  copy, pending Cierra's final wording), founder story, the ABIT
+  framework (Achieve/Believe/Inspire/Teach), and a team section (only
+  Cierra listed — no other board/team names or photos exist yet, so
+  it says "coming soon" rather than inventing people). Programs: the
+  four pillars in detail plus a dedicated Girlfriends Leadership
+  Academy section. New `PageHero` component for interior-page banners.
+- NEXT: M4 — Public forms + Postgres (mentor, enrollment, volunteer,
+  partner, contact, newsletter + thank-you pages + Brevo notifications).

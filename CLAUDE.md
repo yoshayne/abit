@@ -28,6 +28,10 @@ Next 16 route handlers, `cookies()`, `headers()`, and dynamic route `params`
 are async now (return Promises) — matters starting M4 (API routes) and M5
 (admin auth). Build new code against that from the start.
 
+Next 16.2 also renamed the `middleware.ts` convention to `proxy.ts` (same
+API, function renamed `middleware` → `proxy`). We're on `proxy.ts` — don't
+recreate a `middleware.ts` file, Next will error if both exist.
+
 ## Brand
 Tailwind tokens are already defined: `brand-purple` (#4B1E71), `brand-gold`
 (#E5A823), `brand-teal` (#158A8C). Match the uploaded mockup: serif display
@@ -36,17 +40,31 @@ gradient purple hero, gold CTA underlines. Pull the frontend-design skill when
 building UI.
 
 ## File structure
-- `app/` — pages (App Router)
-- `components/` — reusable UI (header, footer, cards, buttons, forms)
-- `lib/` — db.ts, redis.ts, and later storage.ts / auth helpers
+- `app/(site)/` — public marketing pages (has its own layout with
+  Header/Footer). `app/admin/` — admin pages, NOT under the Header/Footer
+  layout (own chrome in `app/admin/(dashboard)/layout.tsx`; `/admin/login`
+  has no shared chrome). Route groups are the only reason for this split —
+  Next's root layout always wraps every route, so this was the only way to
+  give admin its own look.
+- `components/` — reusable UI (header, footer, cards, buttons, forms,
+  `components/admin/` for admin-only pieces)
+- `lib/` — db.ts, redis.ts, auth.ts (bcryptjs + jose), session.ts
+  (Server Component session helper), storage.ts (S3/Tigris uploads),
+  validation.ts (all zod schemas), adminTables.ts + adminQuery.ts (the
+  config-driven admin list views)
+- `proxy.ts` — guards `/admin/*` and `/api/admin/*` (session cookie check)
 - `db/schema.sql` — the database schema. Add any NEW tables here.
 
 ## Environment variables (already set on Railway)
 - `DATABASE_URL`, `REDIS_URL` — auto-provided by Railway plugins
 - `DATABASE_SSL` — only "true" if using the public Postgres URL
 - Bucket: `BUCKET_ENDPOINT_URL`, `BUCKET_NAME`, `BUCKET_REGION`,
-  `BUCKET_ACCESS_KEY_ID`, `BUCKET_SECRET_ACCESS_KEY`
-- Added later: `BREVO_API_KEY`, `ABIT_NOTIFY_EMAIL`, `ADMIN_JWT_SECRET`
+  `BUCKET_ACCESS_KEY_ID`, `BUCKET_SECRET_ACCESS_KEY` — set on Railway, but
+  never live-tested (no credentials in the build sandbox) — verify the
+  public URL format in `lib/storage.ts` matches your bucket's actual setup
+- `BREVO_API_KEY`, `ABIT_NOTIFY_EMAIL` — needed for form notification emails
+- `ADMIN_JWT_SECRET` — needed for `/admin` to work at all; signs session
+  cookies, generate with `openssl rand -base64 32`
 
 ## Deploy
 Push to `main` → Railway auto-deploys. No pull requests.
@@ -104,6 +122,34 @@ minor data around). Reflect this in the Privacy Policy.
   headless-browser submission) — validation errors, successful
   inserts, rate-limit 429s, and the thank-you redirect all confirmed
   against live services, not just typecheck/build.
-- NEXT: M5 — Events + News + Admin CMS (admin login, submission views,
-  create/edit events & news, image uploads via the storage bucket,
-  CSV export).
+- M5 (Events + News + Admin CMS) — DONE.
+  - Admin auth: session-cookie login at `/admin/login`, built fresh with
+    bcryptjs + jose (no existing "reusable module" was ever provided).
+    First admin is `abitcommunity@gmail.com` with a 6-digit password
+    (explicit instruction — see security note below), seeded by hand via
+    SQL, not a signup flow. Login is rate-limited 10 attempts/15min/IP.
+  - Admin dashboard (`/admin`) shows live counts per submission type,
+    linking into `/admin/[section]` — one dynamic page (config in
+    `lib/adminTables.ts`) drives all 6 submission list views (mentors,
+    enrollments, volunteers, partners, contacts, newsletter) with
+    server-side search and CSV export, instead of 6 near-duplicate pages.
+  - Events (`/admin/events`, public `/events` + `/events/[slug]` with
+    RSVP) and News (`/admin/news`, public `/news` + `/news/[slug]`) full
+    CRUD, sharing the `ImageUpload` component for cover photos.
+  - Storage: `lib/storage.ts` uploads to the Railway Tigris bucket via
+    AWS S3 SDK — code-reviewed and typechecked only, NOT live-tested
+    (no real bucket credentials in the build sandbox, same situation as
+    Brevo). Verify the public URL construction once BUCKET_* is set.
+  - Security note: the admin password is a 6-digit PIN by explicit
+    instruction, not my recommendation — small keyspace if the rate
+    limit above is ever bypassed. Worth strengthening once there's more
+    than one admin or this holds more sensitive data long-term.
+  - Verified for real throughout: local Postgres + Redis, full
+    login/logout/session flow, every submission list + search + CSV
+    export against real leftover M4 data, full Events and News CRUD
+    through a real headless browser (create → publish → appears on
+    public site → RSVP/detail page works → delete cascades correctly),
+    auth boundary tested on every protected route (`/admin/*` and
+    `/api/admin/*` both reject unauthenticated requests).
+- NEXT: M6 — Donations (embed Givebutter campaign on the Donate page,
+  wire the header "Donate" button that currently 404s).

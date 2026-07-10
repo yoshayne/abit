@@ -81,3 +81,8 @@ export const newsletterSchema = z.object({
   email,
   firstName: optionalText(120),
 });
+
+export const adminLoginSchema = z.object({
+  email,
+  password: z.string().min(1, "Password is required").max(200),
+});

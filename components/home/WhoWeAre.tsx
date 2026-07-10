@@ -3,19 +3,19 @@ import { Container } from "@/components/Container";
 
 const PHOTOS = [
   {
-    src: "https://images.pexels.com/photos/8005649/pexels-photo-8005649.jpeg?auto=compress&cs=tinysrgb&w=600",
+    src: "/photos/who-we-are-writing.png",
     alt: "A girl focused on writing in her notebook",
   },
   {
-    src: "https://images.pexels.com/photos/31367501/pexels-photo-31367501.jpeg?auto=compress&cs=tinysrgb&w=600",
-    alt: "A student in a hijab holding a book",
+    src: "/photos/who-we-are-hijab.png",
+    alt: "A student in a hijab smiling",
   },
   {
-    src: "https://images.pexels.com/photos/18367687/pexels-photo-18367687.jpeg?auto=compress&cs=tinysrgb&w=600",
+    src: "/photos/who-we-are-glasses.png",
     alt: "A teen girl smiling",
   },
   {
-    src: "https://images.pexels.com/photos/32082811/pexels-photo-32082811.jpeg?auto=compress&cs=tinysrgb&w=600",
+    src: "/photos/who-we-are-freckles.png",
     alt: "A teen girl with curly hair smiling",
   },
 ];

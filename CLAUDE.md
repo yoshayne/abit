@@ -152,8 +152,19 @@ minor data around). Reflect this in the Privacy Policy.
     public site → RSVP/detail page works → delete cascades correctly),
     auth boundary tested on every protected route (`/admin/*` and
     `/api/admin/*` both reject unauthenticated requests).
-- NEXT: M6 — Donations. Switched from Givebutter to Zeffy per Shayne's
-  instruction (2026-07-10) — both are hosted/embedded widgets with no
-  payment code on our side, so this doesn't change the architecture,
-  just which platform's embed goes on the Donate page. Needs a Zeffy
-  account + campaign/form created first to get the embed code.
+- M6 (Donations) — PARTIAL. Switched from Givebutter to Zeffy per
+  Shayne's instruction (2026-07-10) — both are hosted/embedded widgets
+  with no payment code on our side, so this doesn't change the
+  architecture, just which platform's embed goes on the Donate page.
+  Built `/donate` (PageHero + copy + a clearly-marked placeholder
+  where the embed goes — see `components/DonateEmbed.tsx`) so the
+  header "Donate" button and every other Donate link across the site
+  (hero, Get Involved section, founder story CTA, footer) now resolve
+  to a real page instead of 404ing. NOT done: the actual Zeffy embed —
+  blocked on Shayne creating a Zeffy account + donation form to get
+  the embed snippet. Swap it into `DonateEmbed.tsx` when he has it;
+  if Zeffy's snippet includes a `<script>` tag it'll need `next/script`
+  rather than dropping straight into the Server Component.
+- NEXT: finish M6 once the Zeffy embed code is available, then M7 —
+  Email + confirmations polish (submitter confirmations, ABIT
+  notifications, newsletter sync).

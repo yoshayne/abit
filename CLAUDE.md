@@ -60,4 +60,9 @@ minor data around). Reflect this in the Privacy Policy.
   header nav (sticky, mobile menu), footer (link columns, contact, newsletter
   signup UI), and reusable Button/TextLink/Card/IconBadge/Container components.
   Logo asset in `public/logo.png`.
-- NEXT: M2 — Home page (all mockup sections, fully responsive).
+- M2 (home page) — DONE. All mockup sections built and responsive: Hero,
+  Who We Are, The Challenge, How We Help, Stats band, Featured Program +
+  Founder, Get Involved. Image slots use licensed Pexels stock (manually
+  vetted for appropriateness — this is a minors-serving nonprofit) as
+  placeholders; swap for real ABIT photos at M8 (launch polish).
+- NEXT: M3 — About + Programs pages.

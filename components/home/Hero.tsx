@@ -44,14 +44,15 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-2xl">
+        <div className="relative w-full overflow-hidden rounded-3xl shadow-2xl">
           <Image
-            src="https://images.pexels.com/photos/16963378/pexels-photo-16963378.jpeg?auto=compress&cs=tinysrgb&w=1200"
-            alt="A group of teen girls smiling together"
-            fill
+            src="/photos/header-image.png"
+            alt="Four ABIT girls smiling together with arms around each other, one wearing an ABIT hoodie"
+            width={1797}
+            height={875}
             priority
             unoptimized
-            className="object-cover"
+            className="h-auto w-full object-cover"
           />
         </div>
       </Container>

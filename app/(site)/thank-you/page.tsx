@@ -27,6 +27,10 @@ const MESSAGES: Record<string, { title: string; body: string }> = {
     title: "Message Sent!",
     body: "Thanks for reaching out — we'll get back to you as soon as we can.",
   },
+  rsvp: {
+    title: "You're on the List!",
+    body: "Thanks for your RSVP — we look forward to seeing you there.",
+  },
 };
 
 const DEFAULT_MESSAGE = {

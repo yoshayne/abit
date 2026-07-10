@@ -20,6 +20,18 @@ const optionalNumber = (min: number, max: number) =>
     (v) => (v === "" || v === undefined || v === null ? undefined : v),
     z.coerce.number().int().min(min).max(max).optional()
   );
+const booleanFlag = () =>
+  z.preprocess((v) => (v === undefined || v === null ? false : v), z.boolean());
+const slug = () =>
+  z
+    .string()
+    .trim()
+    .min(1, "Slug is required")
+    .max(200)
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "Use lowercase letters, numbers, and hyphens only"
+    );
 
 export const mentorSchema = z.object({
   name: requiredText("Name"),
@@ -85,4 +97,34 @@ export const newsletterSchema = z.object({
 export const adminLoginSchema = z.object({
   email,
   password: z.string().min(1, "Password is required").max(200),
+});
+
+export const adminEventSchema = z.object({
+  title: requiredText("Title"),
+  slug: slug(),
+  description: optionalText(5000),
+  location: optionalText(300),
+  startsAt: z.string().min(1, "Start date/time is required"),
+  endsAt: optionalText(60),
+  imageUrl: optionalText(1000),
+  capacity: optionalNumber(1, 100000),
+  published: booleanFlag(),
+});
+
+export const rsvpSchema = z.object({
+  eventId: z.coerce.number().int().positive(),
+  name: requiredText("Name"),
+  email,
+  phone: optionalText(40),
+  partySize: optionalNumber(1, 20),
+});
+
+export const adminNewsSchema = z.object({
+  title: requiredText("Title"),
+  slug: slug(),
+  excerpt: optionalText(500),
+  body: optionalText(20000),
+  coverImageUrl: optionalText(1000),
+  author: optionalText(200),
+  published: booleanFlag(),
 });

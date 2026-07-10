@@ -40,8 +40,8 @@ export async function createSessionToken(
     .sign(getSecretKey());
 }
 
-// Safe to call from Edge middleware — only touches jose, never next/headers
-// or bcryptjs' Node-oriented bits.
+// Safe to call from proxy.ts — only touches jose, never next/headers or
+// bcryptjs' Node-oriented bits.
 export async function verifySessionToken(
   token: string
 ): Promise<SessionPayload | null> {

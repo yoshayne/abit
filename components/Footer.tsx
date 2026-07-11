@@ -105,10 +105,10 @@ export function Footer() {
             <li className="flex items-start gap-2">
               <IconMail className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" />
               <a
-                href="mailto:abitcommunity@gmail.com"
+                href="mailto:abitcommunity1@gmail.com"
                 className="break-all hover:text-white"
               >
-                abitcommunity@gmail.com
+                abitcommunity1@gmail.com
               </a>
             </li>
             <li className="flex items-center gap-2">

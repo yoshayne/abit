@@ -91,8 +91,8 @@ export default function PrivacyPage() {
             </h2>
             <p className="mt-3">
               Questions about this policy or your information? Email us at{" "}
-              <a href="mailto:abitcommunity@gmail.com" className="text-brand-teal underline">
-                abitcommunity@gmail.com
+              <a href="mailto:abitcommunity1@gmail.com" className="text-brand-teal underline">
+                abitcommunity1@gmail.com
               </a>{" "}
               or use our{" "}
               <a href="/contact" className="text-brand-teal underline">

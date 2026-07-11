@@ -41,10 +41,10 @@ export default function ContactPage() {
               <div>
                 <p className="font-semibold text-brand-purple-dark">Email</p>
                 <a
-                  href="mailto:abitcommunity@gmail.com"
+                  href="mailto:abitcommunity1@gmail.com"
                   className="text-sm text-brand-purple-dark/70"
                 >
-                  abitcommunity@gmail.com
+                  abitcommunity1@gmail.com
                 </a>
               </div>
             </div>

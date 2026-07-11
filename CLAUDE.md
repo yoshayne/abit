@@ -126,7 +126,7 @@ minor data around). Reflect this in the Privacy Policy.
 - M5 (Events + News + Admin CMS) — DONE.
   - Admin auth: session-cookie login at `/admin/login`, built fresh with
     bcryptjs + jose (no existing "reusable module" was ever provided).
-    First admin is `abitcommunity@gmail.com` with a 6-digit password
+    First admin is `abitcommunity1@gmail.com` with a 6-digit password
     (explicit instruction — see security note below), seeded by hand via
     SQL, not a signup flow. Login is rate-limited 10 attempts/15min/IP.
   - Admin dashboard (`/admin`) shows live counts per submission type,

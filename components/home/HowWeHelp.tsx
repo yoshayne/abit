@@ -11,9 +11,8 @@ const PROGRAMS = [
       "Teaching responsibility, communication, conflict resolution, time management, and decision-making.",
     icon: IconSprout,
     color: "purple" as const,
-    photo:
-      "https://images.pexels.com/photos/8456136/pexels-photo-8456136.jpeg?auto=compress&cs=tinysrgb&w=600",
-    alt: "Two teen girls smiling in a school hallway holding notebooks",
+    photo: "/photos/how-we-help-life-skills.png",
+    alt: "Three ABIT girls in ABIT t-shirts laughing together while studying",
   },
   {
     title: "Leadership Development",
@@ -21,9 +20,8 @@ const PROGRAMS = [
       "Helping girls discover confidence, purpose, and self-worth through mentorship.",
     icon: IconCrown,
     color: "teal" as const,
-    photo:
-      "https://images.pexels.com/photos/8872471/pexels-photo-8872471.jpeg?auto=compress&cs=tinysrgb&w=600",
-    alt: "A young woman speaking confidently into a microphone",
+    photo: "/photos/how-we-help-leadership.png",
+    alt: "A girl interviewing another girl with a microphone",
   },
   {
     title: "Career & Entrepreneurship",
@@ -31,9 +29,8 @@ const PROGRAMS = [
       "Preparing young women for college, careers, financial literacy, and business ownership.",
     icon: IconBriefcase,
     color: "gold" as const,
-    photo:
-      "https://images.pexels.com/photos/6937704/pexels-photo-6937704.jpeg?auto=compress&cs=tinysrgb&w=600",
-    alt: "A teen girl focused on her laptop at a desk",
+    photo: "/photos/how-we-help-career.png",
+    alt: "A girl smiling while working on her laptop",
   },
   {
     title: "Community Engagement",
@@ -41,9 +38,8 @@ const PROGRAMS = [
       "Developing respectful, responsible citizens who positively impact their communities.",
     icon: IconHeart,
     color: "purple" as const,
-    photo:
-      "https://images.pexels.com/photos/10643688/pexels-photo-10643688.jpeg?auto=compress&cs=tinysrgb&w=600",
-    alt: "Two teen girls in uniform laughing together outdoors",
+    photo: "/photos/how-we-help-community.png",
+    alt: "Four ABIT girls in green shirts planting together outdoors",
   },
 ];
 

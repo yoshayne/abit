@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { ZodSchema } from "zod";
-import { sendNotificationEmail } from "./email";
+import { sendConfirmationEmail, sendNotificationEmail } from "./email";
 import { checkRateLimit, getClientIp } from "./rateLimit";
 
 export function escapeHtml(value: unknown): string {
@@ -24,13 +24,17 @@ export async function handleFormSubmission<T>({
   rateLimit = { limit: 5, windowSeconds: 60 * 60 },
   onValid,
   notification,
+  confirmation,
 }: {
   request: Request;
   schema: ZodSchema<T>;
   rateLimitKey: string;
   rateLimit?: { limit: number; windowSeconds: number };
   onValid: (data: T) => Promise<void>;
-  notification: (data: T) => { subject: string; html: string };
+  notification: (data: T) => { subject: string; html: string; replyTo?: string };
+  confirmation?: (
+    data: T
+  ) => { to: string; toName?: string; subject: string; html: string } | null;
 }) {
   const ip = getClientIp(request);
   const allowed = await checkRateLimit(
@@ -73,8 +77,13 @@ export async function handleFormSubmission<T>({
     );
   }
 
-  const { subject, html } = notification(parsed.data);
-  void sendNotificationEmail({ subject, html });
+  const { subject, html, replyTo } = notification(parsed.data);
+  void sendNotificationEmail({ subject, html, replyTo });
+
+  const confirm = confirmation?.(parsed.data);
+  if (confirm) {
+    void sendConfirmationEmail(confirm);
+  }
 
   return NextResponse.json({ ok: true });
 }

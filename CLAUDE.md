@@ -178,5 +178,36 @@ minor data around). Reflect this in the Privacy Policy.
   through the outbound proxy for external HTTPS the way curl can, a
   sandbox-only limitation. Worth a real click-through once deployed to
   confirm the checkout flow itself works end to end.
-- NEXT: M7 — Email + confirmations polish (submitter confirmations,
-  ABIT notifications, newsletter sync).
+- M7 (Email + confirmations polish) — DONE. Every public form (mentor,
+  enroll, volunteer, partner, contact, newsletter, event RSVP) now sends
+  a branded submitter confirmation email in addition to the existing
+  ABIT notification, both through `lib/email.ts` → Brevo's transactional
+  email API, wrapped in a shared purple/gold template
+  (`lib/emailTemplates.ts`). Notification emails also now set `replyTo`
+  to the submitter's address so replying from the ABIT inbox goes
+  straight to them, and the RSVP notification includes the event title
+  (previously missing). Enrollment confirmation to the guardian includes
+  the student's first name (explicit instruction from Shayne); the
+  ABIT-facing notification stays fully generic — guardian name/email
+  only — per the safeguarding rule. Newsletter signups now sync to a
+  real Brevo contact list (`lib/email.ts`'s `syncNewsletterContact`,
+  called fire-and-forget so a Brevo hiccup can't fail the signup) —
+  auto-creates an "ABIT Website" folder and "ABIT Newsletter" list on
+  first use via Brevo's Contacts API, so no manual Brevo setup is
+  needed before this works. All of it is best-effort: still a no-op
+  (with a console warning) if `BREVO_API_KEY`/`ABIT_NOTIFY_EMAIL`
+  aren't set, exactly like the M4 notification behavior.
+  Verified for real: local Postgres + Redis, plus a local mock Brevo
+  server (`/v3/smtp/email`, `/v3/contacts/folders`, `/v3/contacts/lists`,
+  `/v3/contacts`) that `lib/email.ts` was pointed at via a new
+  `BREVO_API_BASE` env var (defaults to the real Brevo API; only
+  overridden for this test). Posted real requests to all 7 endpoints
+  and inspected every outbound payload the mock server received —
+  confirmed correct subject/body/replyTo on both notification and
+  confirmation emails per form, confirmed the newsletter flow creates
+  the folder + list once and reuses them (via GET lookup) on a second
+  signup, and confirmed the `BREVO_API_KEY`-unset path still no-ops
+  cleanly (forms save fine, warnings logged, no crash) — matching
+  today's actual Railway state, since Brevo isn't configured there yet.
+- NEXT: M8 — Launch polish (SEO/meta, real images, privacy/terms review,
+  domain, favicon, analytics).

@@ -20,8 +20,8 @@ export function FeaturedAndFounder() {
         <Card className="overflow-hidden">
           <div className="relative aspect-[16/9] w-full">
             <Image
-              src="https://images.pexels.com/photos/8499571/pexels-photo-8499571.jpeg?auto=compress&cs=tinysrgb&w=900"
-              alt="Teen girls together for the Girlfriends Leadership Academy"
+              src="/photos/featured-program-girls.png"
+              alt="Four ABIT girls in ABIT t-shirts smiling and collaborating on a planning worksheet together"
               fill
               unoptimized
               className="object-cover"

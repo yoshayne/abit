@@ -62,11 +62,11 @@ export function FeaturedAndFounder() {
         <Card className="grid grid-rows-[auto_1fr] overflow-hidden sm:grid-cols-2 sm:grid-rows-1">
           <div className="relative aspect-[4/3] w-full sm:aspect-auto">
             <Image
-              src="https://images.pexels.com/photos/29852895/pexels-photo-29852895.jpeg?auto=compress&cs=tinysrgb&w=700"
+              src="/photos/founder-cierra.png"
               alt="Cierra Jenkins, founder of ABIT Community Development Group"
               fill
               unoptimized
-              className="object-cover"
+              className="object-cover object-top"
             />
           </div>
           <div className="p-8">

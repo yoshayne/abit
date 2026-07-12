@@ -8,11 +8,11 @@ export function FounderStory() {
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <div className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-3xl shadow-xl lg:mx-auto">
           <Image
-            src="https://images.pexels.com/photos/29852895/pexels-photo-29852895.jpeg?auto=compress&cs=tinysrgb&w=900"
+            src="/photos/founder-cierra.png"
             alt="Cierra Jenkins, founder of ABIT Community Development Group"
             fill
             unoptimized
-            className="object-cover"
+            className="object-cover object-top"
           />
         </div>
 

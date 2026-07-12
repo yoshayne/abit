@@ -19,11 +19,11 @@ export function Team() {
           <Card className="overflow-hidden text-center">
             <div className="relative aspect-square w-full">
               <Image
-                src="https://images.pexels.com/photos/29852895/pexels-photo-29852895.jpeg?auto=compress&cs=tinysrgb&w=500"
+                src="/photos/founder-cierra.png"
                 alt="Cierra Jenkins"
                 fill
                 unoptimized
-                className="object-cover"
+                className="object-cover object-top"
               />
             </div>
             <div className="p-6">

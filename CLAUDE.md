@@ -209,5 +209,28 @@ minor data around). Reflect this in the Privacy Policy.
   signup, and confirmed the `BREVO_API_KEY`-unset path still no-ops
   cleanly (forms save fine, warnings logged, no crash) — matching
   today's actual Railway state, since Brevo isn't configured there yet.
+- Bug fix (2026-07-24): a guardian testing Enroll-a-Student at a school
+  reported the form "did nothing" — no confirmation, no email. Root
+  cause: every one of the 7 public forms had a `<form>` with no
+  `noValidate`, so the browser's native HTML5 constraint validation
+  (required fields, checkbox `required`, number `min`/`max`, `type=email`
+  format) ran BEFORE React's `onSubmit` handler and silently blocked
+  submission on any violation — no network request, no custom error,
+  just a small native browser tooltip that's easy to miss (especially
+  on mobile Safari). This made the app's actual validation UI (zod +
+  styled field errors, built in M4) effectively dead code for the most
+  common case: a missing required field or unchecked consent box.
+  Reproduced with Playwright (unchecked consent checkbox on Enroll,
+  out-of-range student age) — confirmed zero network request and zero
+  visible error in both cases, exactly matching the report. Fixed by
+  adding `noValidate` to all 7 forms (mentor, enroll, volunteer,
+  partner, contact, newsletter, RSVP) so every submission always goes
+  through the JS handler and the existing custom validation UI, which
+  was already correct and just needed to actually run.
+  Verified for real: local Postgres + Redis + Playwright. Re-ran both
+  repro cases post-fix — both now fire the request and show the
+  correct styled field-specific error. Ran a full valid-submission
+  pass across all 7 forms and confirmed a row landed in the right
+  Postgres table for each one.
 - NEXT: M8 — Launch polish (SEO/meta, real images, privacy/terms review,
   domain, favicon, analytics).

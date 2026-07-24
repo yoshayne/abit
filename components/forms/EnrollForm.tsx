@@ -12,7 +12,7 @@ export function EnrollForm() {
   );
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} noValidate className="space-y-5">
       <FormError message={formError} />
 
       <div>

@@ -19,7 +19,7 @@ export function MentorForm() {
   );
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} noValidate className="space-y-5">
       <FormError message={formError} />
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Full name" htmlFor="mentor-name" required error={fieldErrors.name?.[0]}>

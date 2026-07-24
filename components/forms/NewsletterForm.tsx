@@ -40,7 +40,7 @@ export function NewsletterForm({ className = "" }: { className?: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={className}>
+    <form onSubmit={handleSubmit} noValidate className={className}>
       <div className="flex overflow-hidden rounded-lg">
         <input
           type="email"

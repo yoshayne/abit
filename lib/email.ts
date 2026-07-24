@@ -30,10 +30,13 @@ async function sendBrevoEmail({
   replyTo?: string;
 }): Promise<void> {
   const apiKey = process.env.BREVO_API_KEY;
-  const senderEmail = process.env.ABIT_NOTIFY_EMAIL;
+  // Must be a sender verified in Brevo — separate from ABIT_NOTIFY_EMAIL,
+  // which is just the delivery address for admin notifications and doesn't
+  // need to be verified with Brevo at all.
+  const senderEmail = process.env.BREVO_SENDER_EMAIL;
 
   if (!apiKey || !senderEmail) {
-    console.warn("sendBrevoEmail skipped: BREVO_API_KEY or ABIT_NOTIFY_EMAIL is not set");
+    console.warn("sendBrevoEmail skipped: BREVO_API_KEY or BREVO_SENDER_EMAIL is not set");
     return;
   }
 

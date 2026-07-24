@@ -63,7 +63,12 @@ building UI.
   `BUCKET_ACCESS_KEY_ID`, `BUCKET_SECRET_ACCESS_KEY` — set on Railway, but
   never live-tested (no credentials in the build sandbox) — verify the
   public URL format in `lib/storage.ts` matches your bucket's actual setup
-- `BREVO_API_KEY`, `ABIT_NOTIFY_EMAIL` — needed for form notification emails
+- `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`, `ABIT_NOTIFY_EMAIL` — needed for
+  form notification + confirmation emails. `BREVO_SENDER_EMAIL` is the
+  "From" on every outgoing email and must be verified as a sender in
+  Brevo; `ABIT_NOTIFY_EMAIL` is just the delivery address for admin
+  notifications and does NOT need Brevo verification — the two can (and
+  during testing, do) point at different inboxes
 - `ADMIN_JWT_SECRET` — needed for `/admin` to work at all; signs session
   cookies, generate with `openssl rand -base64 32`
 
@@ -232,5 +237,21 @@ minor data around). Reflect this in the Privacy Policy.
   correct styled field-specific error. Ran a full valid-submission
   pass across all 7 forms and confirmed a row landed in the right
   Postgres table for each one.
+- Split the Brevo sender from the notify address (2026-07-24): added
+  `BREVO_SENDER_EMAIL` as the "From" on every outgoing email — it must
+  be verified as a sender in Brevo. `ABIT_NOTIFY_EMAIL` is now only the
+  delivery address for admin notifications and does NOT need Brevo
+  verification, so the two can point at different inboxes. This lets
+  Shayne test the full email flow with a personal verified sender
+  before Cierra has purchased a domain (and thus a proper
+  `@abitcommunity...`-style sender address). Every form still sends
+  both emails on submission: an admin notification to
+  `ABIT_NOTIFY_EMAIL` and a submitter confirmation to whatever address
+  they typed into the form — both now sent "from" `BREVO_SENDER_EMAIL`.
+  Verified for real with a local mock Brevo server using two different
+  addresses: confirmed the outgoing email's `sender.email` was the
+  test sender address while the admin notification's `to` was the
+  separate notify address and the submitter confirmation's `to` was
+  the form submitter's own address.
 - NEXT: M8 — Launch polish (SEO/meta, real images, privacy/terms review,
   domain, favicon, analytics).
